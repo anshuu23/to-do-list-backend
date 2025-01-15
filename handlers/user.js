@@ -1,5 +1,6 @@
 const USER = require("../models/schema")
 const {hashPassword} = require("../services/bcrypt")
+const {setUser} = require("../server/auth")
 
 async function handelUserCreateAccount(req,res){
 
@@ -21,7 +22,7 @@ async function handelUserCreateAccount(req,res){
     })
     .then((data)=>{
         console.log(data)
-        const token=1223
+        const token = setUser(data)
         res.cookie('jwt' , token)
         return res.status(201).json({msg:"account created successfully"})
         

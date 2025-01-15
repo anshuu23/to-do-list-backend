@@ -19,4 +19,14 @@ function setUser(data){
 
 }
 
-module.exports = {setUser}
+function getUser(token){
+    try{
+        const user = jwt.verify(token, secretKey)
+        return user;
+    }
+    catch(err){
+        return null
+    }
+}
+
+module.exports = {setUser, getUser}

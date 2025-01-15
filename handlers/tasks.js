@@ -1,7 +1,7 @@
-
+const USER = require('../models/schema')
 function handelCreateTask(req, res){
     const {taskName , isComplited} = req.body;
-    const email = req.user.email;
+    const id = req.user.id;
 
     if(!taskName || !isComplited){
         return res.status(400).json({msg:'pls send task name and task status'})
@@ -12,7 +12,7 @@ function handelCreateTask(req, res){
         isComplited
     }
     
-    user.findOneAndUpdate({email:email},{$push:{tasks:taskToPush}},{new:true})
+    USER.findOneAndUpdate({_id : id},{$push:{tasks:taskToPush}},{new:true})
     .then(()=>{
         return res.status(201).end("created task object");
     })

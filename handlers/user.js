@@ -24,7 +24,7 @@ async function handelUserCreateAccount(req,res){
     USER.create({
         name,email,password:hashedPassword
     })
-    .then(async (data)=>{
+    .then((data)=>{
         console.log(data)
         const token = setUser(data)
         console.log("ttoken" , token)

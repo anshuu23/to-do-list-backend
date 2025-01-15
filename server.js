@@ -3,7 +3,8 @@ const app = express()
 require('dotenv').config()
 const {connectToDb} = require('./services/mongo-db-connection')
 const {handelUserCreateAccount, handelUserLogin} = require("./handlers/user")
-const {handelCreateTask} = require("./handlers/tasks")
+const {handelCreateTask} = require('./handlers/tasks')
+const {authenticateUser} = require("./middlewares/auth")
 const cors = require('cors')
 const cookieParser = require("cookie-parser")
 
@@ -18,6 +19,8 @@ connectToDb(URL)
 
 app.post('/createAccount' , handelUserCreateAccount)
 app.post('/login' , handelUserLogin)
+
+app.use(authenticateUser())
 
 app.post('/tasks' , handelCreateTask)
 

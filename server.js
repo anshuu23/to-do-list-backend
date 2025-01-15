@@ -1,7 +1,15 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
+const {connectToDb} = require('./services/mongo-db-connection')
 const cors = require('cors')
 app.use(cors())
+
+
+// connecting to database
+const URL = process.env.MONGODB_CONNECTION_URL
+connectToDb(URL)
+
 
 app.post('/' , (req,res)=>{
     res.json({msg:'hello from server'})

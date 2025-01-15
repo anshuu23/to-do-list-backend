@@ -32,8 +32,8 @@ async function handelUserCreateAccount(req,res){
         return res.status(201).json({msg:`account created successfully`})
         
     })
-    .catch(()=>{
-        console.log("error")
+    .catch((error)=>{
+        console.log(error)
         return res.status(409).json({msg:"account with this email already exist"})
         
     })
@@ -41,6 +41,9 @@ async function handelUserCreateAccount(req,res){
 }
 
 
+/* handelUserLogin function handels req came from '/login' route. 
+ it log-in to account. if account with thst email dosent exist, it sends err msg,
+it then unhashes password and return json web token if password is correct */
 async function handelUserLogin(req,res){
     const {email,password} = req.body;
     

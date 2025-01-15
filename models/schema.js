@@ -24,16 +24,10 @@ const schema = mongoose.Schema({
                 type:String,
                 required:true,
             },
-            description:{
-                type:String
-            },
+
             isComplited:{
                 type:Boolean,
                 default:false
-            },
-            createdAt:{
-                type:Date,
-                default:Date.now
             }
             
         }

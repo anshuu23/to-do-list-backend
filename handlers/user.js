@@ -1,6 +1,10 @@
 const USER = require("../models/schema")
-const {hashPassword} = require("../services/bcrypt")
-const {setUser} = require("../server/auth")
+const {hashPassword , unhashAndCheck} = require("../services/bcrypt")
+const {setUser} = require("../services/auth")
+
+/* handelUserCreateAccount function handels req came from '/createAccount' route. 
+ it creates account. if account already exist, it sends err msg,
+it then hashes password and return json web token if account is created */
 
 async function handelUserCreateAccount(req,res){
 
@@ -20,11 +24,12 @@ async function handelUserCreateAccount(req,res){
     USER.create({
         name,email,password:hashedPassword
     })
-    .then((data)=>{
+    .then(async (data)=>{
         console.log(data)
         const token = setUser(data)
+        console.log("ttoken" , token)
         res.cookie('jwt' , token)
-        return res.status(201).json({msg:"account created successfully"})
+        return res.status(201).json({msg:`account created successfully`})
         
     })
     .catch(()=>{
@@ -34,7 +39,40 @@ async function handelUserCreateAccount(req,res){
     })
     
 }
-function handelUserLogin(){
 
+
+async function handelUserLogin(req,res){
+    const {email,password} = req.body;
+    
+    if( !email || !password){
+        return res.status(400).json({err:'missing requires fields'})
+    }
+
+    try{
+        const user = await  USER.findOne({email})
+        console.log("this is user" , user)
+
+        if(!user){
+            return res.status(400).json({err:'account with this email dosent exist'})
+        }
+
+        const hashedPassword =  user.password
+        const isAuthenticUser = await unhashAndCheck(hashedPassword , password)
+
+        if(!isAuthenticUser){
+            return res.status(400).json({err:'wrong password'})
+        }
+
+        const token = setUser(user)
+        res.cookie('jwt' , token)
+        return res.status(200).json({msg:`you are logged in , for development purposes this is jwt = '${token}' , it is also set as cokkies. it will expire in 1hr`})
+
+
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({err:'internal server error'})
+    }
+    
 }
 module.exports = {handelUserCreateAccount , handelUserLogin}

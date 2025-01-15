@@ -11,11 +11,8 @@ function setUser(data){
 
     // Generating the token
     const token = jwt.sign(payload, secretKey, options);
-    console.log('Generated Token:', token);
+    return token
 
 }
-data = {
-    name :'hi',
-    email : "@.com"
-}
-setUser(data)
+
+module.exports = {setUser}

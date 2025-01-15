@@ -12,4 +12,16 @@ async function hashPassword(plainPassword){
    
 }
 
-module.exports = {hashPassword}
+async function unhashAndCheck(hashedPassword , plainPassword){
+
+    try{
+        const isPassswordCorrect = bcrypt.compare(plainPassword , hashedPassword)
+        return isPassswordCorrect
+    }
+    catch(err){
+        return null;
+    }
+
+}
+
+module.exports = {hashPassword , unhashAndCheck}

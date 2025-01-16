@@ -25,11 +25,11 @@ async function handelUserCreateAccount(req,res){
         name,email,password:hashedPassword
     })
     .then((data)=>{
-        console.log(data)
+        
         const token = setUser(data)
         console.log("ttoken" , token)
-        res.cookie('jwt' , token)
-        return res.status(201).json({msg:`account created successfully`})
+        
+        return res.status(201).json({msg:`account created successfully, Use this token in headers`,token:token})
         
     })
     .catch((error)=>{
@@ -67,8 +67,8 @@ async function handelUserLogin(req,res){
         }
 
         const token = setUser(user)
-        res.cookie('jwt' , token)
-        return res.status(200).json({msg:`you are logged in , for development purposes this is jwt = '${token}' , it is also set as cokkies. it will expire in 1hr`})
+        
+        return res.status(200).json({token:token , msg:'Use this token in headers'})
 
 
     }

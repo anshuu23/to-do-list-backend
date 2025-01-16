@@ -1,4 +1,5 @@
 const USER = require('../models/schema')
+
 function handelCreateTask(req, res){
     const {taskName , isComplited} = req.body;
     const id = req.user.id;
@@ -23,4 +24,14 @@ function handelCreateTask(req, res){
 
 }
 
-module.exports = {handelCreateTask}
+function returnAllTasks(req,res){
+    const id = req.user.id;
+
+    USER.findOne({_id:id})
+    .then((data)=>{
+        console.log("data =" , data)
+        return res.status(200).json({tasks:data.tasks})
+    })
+}
+
+module.exports = {handelCreateTask , returnAllTasks}

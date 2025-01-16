@@ -1,15 +1,19 @@
 const {getUser} = require("../services/auth") 
 function authenticateUser(req, res, next){
 
-    const jwt = req.cookie;
-    if(!jwt){
-        return res.status(400).end("pls log in to access this page")
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).json({ error: 'Authorization header missing' });
     }
 
-    const user = getUser(jwt);
+    const token = authHeader.split(' ')[1];
+    
+
+    const user = getUser(token);
 
     if(!user){
-        return res.status(401).end("invalid token, pls log-in again")
+        return res.status(401).json({err:"invalid token, pls log-in again"})
     }
 
     req.user = user;

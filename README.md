@@ -32,16 +32,16 @@ API Endpoints
 2.2 POST /tasks
 
     Description: Adds a new task.
-    Request Body: { "taskName": "string", "isCompleted": false }
+    Request Body: { "taskName": "string", "isCompleted": ('true' or 'false' as string) }
     Response: The created task object.
     
-2.3 PUT /tasks/:id
+2.3 PUT /tasks?id=
 
     Description: Updates a task’s details by its ID.
-    Request Body: { "taskName": "string", "isCompleted": boolean }
+    Request Body: { "taskName": "string", "isCompleted": ('true' or 'false' as string) }
     Response: The updated task object.
     
-2.4 DELETE /tasks/:id
+2.4 DELETE /tasks?id=
 
     Description: Removes a task by its ID.
     Response: Confirmation message.

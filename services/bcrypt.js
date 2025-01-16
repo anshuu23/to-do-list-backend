@@ -23,6 +23,7 @@ async function unhashAndCheck(hashedPassword , plainPassword){
     }
     catch(err){
         return null;
+        
     }
 
 }

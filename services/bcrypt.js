@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 
+//hashes password
 async function hashPassword(plainPassword){
+
     saltRound = 10
     try{
         const hashedPassword =  await bcrypt.hash(plainPassword , saltRound)
@@ -12,6 +14,7 @@ async function hashPassword(plainPassword){
    
 }
 
+// unhashes password
 async function unhashAndCheck(hashedPassword , plainPassword){
 
     try{

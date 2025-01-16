@@ -2,15 +2,17 @@ const jwt = require("jsonwebtoken")
 require('dotenv').config()
 const secretKey = process.env.SECRET_KEY
 
-
 // setUser function creates a token and return it 
 function setUser(data){
+
     console.log(data)
+
     const payload = { 
                     email: data.email, 
                     username: data.name,
                     id: data._id
     };
+
     const options = { expiresIn: '1h' }; 
 
     // Generating the token
@@ -19,7 +21,9 @@ function setUser(data){
 
 }
 
+// verify token and returns user data inside token 
 function getUser(token){
+
     try{
         const user = jwt.verify(token, secretKey)
         return user;
@@ -27,6 +31,7 @@ function getUser(token){
     catch(err){
         return null
     }
+
 }
 
 module.exports = {setUser, getUser}

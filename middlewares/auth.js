@@ -1,4 +1,6 @@
 const {getUser} = require("../services/auth") 
+
+// checks if token is send. if yes , it verifys token and allow user to access route 
 function authenticateUser(req, res, next){
 
     const authHeader = req.headers.authorization;
@@ -9,7 +11,6 @@ function authenticateUser(req, res, next){
 
     const token = authHeader.split(' ')[1];
     
-
     const user = getUser(token);
 
     if(!user){

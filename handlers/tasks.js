@@ -1,6 +1,14 @@
 const USER = require('../models/schema')
 
+/* handelCreateTask function creates task and returns added task 
+{
+    "taskName": "string",
+    "isCompleted": false,
+    id:taskId
+    } */
+
 function handelCreateTask(req, res){
+
     const {taskName , isComplited} = req.body;
     const id = req.user.id;
 
@@ -24,21 +32,25 @@ function handelCreateTask(req, res){
         console.log(err)
     })
 
-
 }
 
+//this function returns all task of personalbar, needs token to access
 function returnAllTasks(req,res){
+
     const id = req.user.id;
 
     USER.findOne({_id:id})
+
     .then((data)=>{
         return res.status(200).json({tasks:data.tasks})
     })
+
 }
 
 
-
+// updateTask updates task and returns updates task obj
 function updateTask(req,res){
+    
     let {taskName , isComplited} = req.body ; 
     const userId = req.user.id;
     const taskId = req.query.id
@@ -51,7 +63,6 @@ function updateTask(req,res){
     USER.findOneAndUpdate({_id:userId, "tasks._id":taskId},
         { $set: { "tasks.$.isComplited": isComplited } },
         { new: true })
-
         .then((data)=>{
             
             const objToSend = data.tasks.find((element) => element._id == taskId);
@@ -64,8 +75,10 @@ function updateTask(req,res){
         })
 }
 
+
+// deleteTask delets the task
 function deleteTask(req,res){
-    const userId = req.user.id;
+    const userId = req.user.id
     const taskId = req.query.id
 
     if(!taskId){
@@ -75,7 +88,9 @@ function deleteTask(req,res){
     USER.findOneAndUpdate({_id : userId},{$pull:{tasks:{_id:taskId}}})
     .then((data)=>{
         if(!data){
+
             return res.status(400).json({msg : "wrong task id"})
+
         }
         return res.status(200).json({msg : "task deleted"})
     })
@@ -85,6 +100,8 @@ function deleteTask(req,res){
     })
 }
 
+
+// search task and returns it
 function searchTask(req,res){
     const userId = req.user.id;
     const searchQuery = req.query.query;
@@ -98,7 +115,7 @@ function searchTask(req,res){
     .then((data)=>{
 
         return res.json(data)
-
+        
     })
 }
 

@@ -16,7 +16,6 @@ async function handelUserCreateAccount(req,res){
 
     const hashedPassword = await hashPassword(password);
     
-
     if(!hashedPassword){
         return res.status(500).json({err:'internal server error'})
     }
@@ -26,8 +25,7 @@ async function handelUserCreateAccount(req,res){
     })
     .then((data)=>{
         
-        const token = setUser(data)
-        
+        const token = setUser(data)  
         
         return res.status(201).json({msg:`account created successfully, Use this token in headers`,token:token})
         
@@ -53,7 +51,6 @@ async function handelUserLogin(req,res){
 
     try{
         const user = await  USER.findOne({email})
-        
 
         if(!user){
             return res.status(400).json({err:'account with this email dosent exist'})
@@ -69,7 +66,6 @@ async function handelUserLogin(req,res){
         const token = setUser(user)
         
         return res.status(200).json({token:token , msg:'Use this token in headers'})
-
 
     }
     catch(err){

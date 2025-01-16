@@ -3,18 +3,18 @@ const mongoose = require("mongoose")
 const schema = mongoose.Schema({
     name:{
         type:String,
-        require:true
+        required:true
     },
 
     email:{
         type:String,
-        require:true,
+        required:true,
         unique:true
     },
 
     password:{
         type:String,
-        require:true
+        required:true
     },
 
     tasks:[
@@ -23,10 +23,11 @@ const schema = mongoose.Schema({
             taskName:{
                 type:String,
                 required:true,
+                unique:true
             },
 
             isComplited:{
-                type:Boolean,
+                type:String,
                 default:false
             }
             

@@ -3,11 +3,10 @@ const app = express()
 require('dotenv').config()
 const {connectToDb} = require('./services/mongo-db-connection')
 const {handelUserCreateAccount, handelUserLogin} = require("./handlers/user")
-const {handelCreateTask , returnAllTasks} = require('./handlers/tasks')
+const {handelCreateTask , returnAllTasks , updateTask , deleteTask, searchTask} = require('./handlers/tasks')
 const {authenticateUser} = require("./middlewares/auth")
 
 const cors = require('cors')
-const cookieParser = require("cookie-parser")
 
 app.use(cors())
 app.use(express.json())
@@ -21,14 +20,13 @@ connectToDb(URL)
 app.post('/createAccount' , handelUserCreateAccount)
 app.post('/login' , handelUserLogin)
 
-app.use(authenticateUser)
 
-app.get('/tasks' , returnAllTasks)
-app.post('/tasks' , handelCreateTask)
+app.get('/tasks' , authenticateUser , returnAllTasks)
+app.post('/tasks' , authenticateUser ,handelCreateTask)
+app.put('/tasks' , authenticateUser , updateTask)
+app.delete('/tasks' , authenticateUser , deleteTask)
+app.get('/tasks/search' , authenticateUser , searchTask)
 
-app.get('/task' , (req,res)=>{
-
-})
 
 app.listen(3022, ()=>{
     console.log('serve is listening on port 4000');

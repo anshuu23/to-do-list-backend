@@ -85,4 +85,21 @@ function deleteTask(req,res){
     })
 }
 
-module.exports = {handelCreateTask , returnAllTasks , updateTask , deleteTask}
+function searchTask(req,res){
+    const userId = req.user.id;
+    const searchQuery = req.query.query;
+    
+    USER.find(
+
+        { _id: userId },
+        { tasks: { $elemMatch: { taskName: searchQuery } }} 
+
+    )
+    .then((data)=>{
+
+        return res.json(data)
+
+    })
+}
+
+module.exports = {handelCreateTask , returnAllTasks , updateTask , deleteTask , searchTask}
